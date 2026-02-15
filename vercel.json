@@ -1,4 +1,1 @@
-{
-  "framework": "nextjs-app",
-  "buildCommand": "npm run build"
-}
+{}
