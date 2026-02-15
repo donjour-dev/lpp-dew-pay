@@ -80,26 +80,24 @@ export default function Home() {
 
         <div className="mb-6 mt-8">
           <p className="mb-3 text-sm font-medium text-slate-600">추가 근무</p>
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="flex flex-wrap gap-2">
-              {OVERTIME_BUTTONS.map(({ label, minutes }) => (
-                <button
-                  key={label}
-                  type="button"
-                  onClick={() => addEntry(label, minutes)}
-                  className="h-12 w-20 rounded-lg bg-amber-500 text-sm font-medium text-white transition hover:bg-amber-400 active:scale-[0.98]"
-                >
-                  {label}
-                </button>
-              ))}
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {OVERTIME_BUTTONS.map(({ label, minutes }) => (
               <button
+                key={label}
                 type="button"
-                onClick={clearEntries}
-                className="h-12 w-28 shrink-0 rounded-lg border border-amber-300 bg-amber-100 text-sm font-medium text-amber-900 transition hover:bg-amber-200 active:scale-[0.98]"
+                onClick={() => addEntry(label, minutes)}
+                className="min-w-0 rounded-lg bg-amber-500 px-3 py-3.5 text-sm font-medium text-white transition hover:bg-amber-400 active:scale-[0.98]"
               >
-                초기화
+                {label}
               </button>
-            </div>
+            ))}
+            <button
+              type="button"
+              onClick={clearEntries}
+              className="min-w-0 rounded-lg border border-amber-300 bg-amber-100 px-3 py-3.5 text-sm font-medium text-amber-900 transition hover:bg-amber-200 active:scale-[0.98]"
+            >
+              초기화
+            </button>
           </div>
           <div className="mt-4">
             <button
