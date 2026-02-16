@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 type TimeEntry = {
   label: string;
@@ -39,37 +39,6 @@ function calcPay(minutes: number): number {
   return Math.round((minutes / 60) * WON_PER_HOUR);
 }
 
-function InstallPrompt() {
-  const [show, setShow] = useState(false);
-  const [isIOS, setIsIOS] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const standalone = window.matchMedia("(display-mode: standalone)").matches;
-    const nav = window.navigator as Window["navigator"] & { standalone?: boolean };
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (!standalone && !nav.standalone) {
-      setIsIOS(isIOS);
-      setShow(true);
-    }
-  }, []);
-
-  if (!show) return null;
-
-  return (
-    <div className="mb-6 rounded-xl border border-rose-200/80 bg-rose-50/90 px-4 py-3 text-center">
-      <p className="text-sm font-medium text-rose-800">
-        📲 홈 화면에 추가하면 앱처럼 사용할 수 있어요
-      </p>
-      {isIOS && (
-        <p className="mt-1.5 text-xs text-rose-600">
-          Safari에서 공유 버튼 <span className="font-mono">⎋</span> → &quot;홈 화면에 추가&quot; <span className="font-mono">➕</span>
-        </p>
-      )}
-    </div>
-  );
-}
-
 export default function Home() {
   const [entries, setEntries] = useState<TimeEntry[]>([]);
   const [showTotal, setShowTotal] = useState(false);
@@ -95,9 +64,7 @@ export default function Home() {
         <h1 className="mb-2 text-center text-2xl font-bold tracking-tight text-rose-500 sm:text-3xl">
           르쁘빠 근무계산표
         </h1>
-        <p className="mb-6 text-center text-sm text-slate-500">🥐💗</p>
-
-        <InstallPrompt />
+        <p className="mb-8 text-center text-sm text-slate-500">🥐💗</p>
 
         <div className="mb-8">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
