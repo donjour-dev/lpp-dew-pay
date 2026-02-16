@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type TimeEntry = {
   label: string;
@@ -39,6 +39,37 @@ function calcPay(minutes: number): number {
   return Math.round((minutes / 60) * WON_PER_HOUR);
 }
 
+function InstallPrompt() {
+  const [show, setShow] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const standalone = window.matchMedia("(display-mode: standalone)").matches;
+    const nav = window.navigator as Window["navigator"] & { standalone?: boolean };
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (!standalone && !nav.standalone) {
+      setIsIOS(isIOS);
+      setShow(true);
+    }
+  }, []);
+
+  if (!show) return null;
+
+  return (
+    <div className="mb-6 rounded-xl border border-rose-200/80 bg-rose-50/90 px-4 py-3 text-center">
+      <p className="text-sm font-medium text-rose-800">
+        📲 홈 화면에 추가하면 앱처럼 사용할 수 있어요
+      </p>
+      {isIOS && (
+        <p className="mt-1.5 text-xs text-rose-600">
+          Safari에서 공유 버튼 <span className="font-mono">⎋</span> → &quot;홈 화면에 추가&quot; <span className="font-mono">➕</span>
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function Home() {
   const [entries, setEntries] = useState<TimeEntry[]>([]);
   const [showTotal, setShowTotal] = useState(false);
@@ -59,34 +90,44 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-8 px-4">
-      <main className="mx-auto max-w-lg rounded-2xl bg-white p-6 shadow-lg">
-        <h1 className="mb-6 text-center text-xl font-bold text-pink-500">
-          르쁘빠 근무계산표 🥐💗
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50/30 to-slate-100 py-8 px-4 sm:py-12">
+      <main className="mx-auto max-w-lg rounded-2xl border border-rose-100/60 bg-white/90 p-6 shadow-xl shadow-rose-200/20 backdrop-blur sm:p-8">
+        <h1 className="mb-2 text-center text-2xl font-bold tracking-tight text-rose-500 sm:text-3xl">
+          르쁘빠 근무계산표
         </h1>
+        <p className="mb-6 text-center text-sm text-slate-500">🥐💗</p>
 
-        <div className="mb-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {TIME_BUTTONS.map(({ label, minutes }) => (
-            <button
-              key={label}
-              type="button"
-              onClick={() => addEntry(label, minutes)}
-              className="rounded-lg bg-amber-200 px-3 py-3.5 text-sm font-medium text-amber-900 transition hover:bg-amber-300 active:scale-[0.98]"
-            >
-              {label}
-            </button>
-          ))}
+        <InstallPrompt />
+
+        <div className="mb-8">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            출근 시간
+          </p>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+            {TIME_BUTTONS.map(({ label, minutes }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => addEntry(label, minutes)}
+                className="rounded-xl bg-amber-100 px-3 py-3.5 text-sm font-medium text-amber-900 ring-1 ring-amber-200/60 transition hover:bg-amber-200 hover:ring-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-400 active:scale-[0.98]"
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="mb-6 mt-8">
-          <p className="mb-3 text-sm font-medium text-slate-600">추가 근무</p>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <div className="mb-8">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            추가 근무
+          </p>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
             {OVERTIME_BUTTONS.map(({ label, minutes }) => (
               <button
                 key={label}
                 type="button"
                 onClick={() => addEntry(label, minutes)}
-                className="min-w-0 rounded-lg bg-amber-500 px-3 py-3.5 text-sm font-medium text-white transition hover:bg-amber-400 active:scale-[0.98]"
+                className="min-w-0 rounded-xl bg-amber-500 px-3 py-3.5 text-sm font-medium text-white shadow-md shadow-amber-500/25 transition hover:bg-amber-600 hover:shadow-amber-500/30 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 active:scale-[0.98]"
               >
                 {label}
               </button>
@@ -94,24 +135,24 @@ export default function Home() {
             <button
               type="button"
               onClick={clearEntries}
-              className="min-w-0 rounded-lg border border-amber-300 bg-amber-100 px-3 py-3.5 text-sm font-medium text-amber-900 transition hover:bg-amber-200 active:scale-[0.98]"
+              className="min-w-0 rounded-xl border-2 border-amber-200 bg-amber-50/80 px-3 py-3.5 text-sm font-medium text-amber-900 transition hover:bg-amber-100 hover:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 active:scale-[0.98]"
             >
               초기화
             </button>
           </div>
-          <div className="mt-4">
+          <div className="mt-5">
             <button
               type="button"
               onClick={handleSum}
-              className="w-full rounded-lg bg-amber-800 px-6 py-3.5 text-sm font-semibold text-amber-50 transition hover:bg-amber-700 active:scale-[0.98]"
+              className="w-full rounded-xl bg-rose-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-rose-500/25 transition hover:bg-rose-700 hover:shadow-rose-500/30 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-offset-2 active:scale-[0.99]"
             >
-              합계
+              합계 계산
             </button>
           </div>
         </div>
 
-        <section className="min-h-[120px] rounded-lg border border-slate-200 bg-slate-50 p-4">
-          <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
+        <section className="min-h-[140px] rounded-xl border border-slate-200/80 bg-slate-50/80 p-5 ring-1 ring-slate-100">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
             근무시간
           </p>
           {entries.length === 0 ? (
@@ -128,23 +169,23 @@ export default function Home() {
           )}
 
           {showTotal && entries.length > 0 && (
-            <div className="mt-4 grid grid-cols-2 gap-4 border-t border-slate-200 pt-4">
-              <div className="min-w-0">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            <div className="mt-5 grid grid-cols-2 gap-5 border-t border-slate-200 pt-5">
+              <div className="min-w-0 rounded-lg bg-white/60 p-3 ring-1 ring-slate-100">
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   최종 근무시간
                 </p>
-                <p className="mt-1 text-lg font-bold text-emerald-700">
+                <p className="mt-1.5 text-xl font-bold text-emerald-600">
                   {formatTotal(totalMinutes)}
                 </p>
                 <p className="mt-0.5 text-sm text-slate-500">
                   (총 {totalMinutes}분)
                 </p>
               </div>
-              <div className="min-w-0">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+              <div className="min-w-0 rounded-lg bg-white/60 p-3 ring-1 ring-slate-100">
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   예상급여
                 </p>
-                <p className="mt-1 text-lg font-bold text-slate-800">
+                <p className="mt-1.5 text-xl font-bold text-slate-800">
                   {calcPay(totalMinutes).toLocaleString("ko-KR")}원
                 </p>
               </div>
@@ -152,7 +193,7 @@ export default function Home() {
           )}
         </section>
 
-        <p className="mt-3 text-right text-xs text-slate-400">
+        <p className="mt-6 text-right text-xs text-slate-400">
           design by donjour & dew
         </p>
       </main>

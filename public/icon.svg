@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef3c7"/>
+      <stop offset="100%" style="stop-color:#fce7f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bg)"/>
+  <!-- croissant shape simplified -->
+  <path d="M256 120c-80 0-136 80-136 136s56 136 136 136 136-56 136-136-56-136-136-136zm0 220c-46 0-84-38-84-84s38-84 84-84 84 38 84 84-38 84-84 84z" fill="#d97706" opacity="0.9"/>
+  <!-- heart -->
+  <path d="M256 340c-25-22-60-22-85 0-28 24-28 64 0 88 28 24 85 72 85 72s57-48 85-72c28-24 28-64 0-88-25-22-60-22-85 0z" fill="#e11d48"/>
+</svg>
