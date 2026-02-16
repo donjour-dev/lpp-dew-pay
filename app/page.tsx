@@ -68,7 +68,7 @@ export default function Home() {
 
         <div className="mb-8">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
-            출근 시간
+            근무 시간
           </p>
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
             {TIME_BUTTONS.map(({ label, minutes }) => (
@@ -76,7 +76,7 @@ export default function Home() {
                 key={label}
                 type="button"
                 onClick={() => addEntry(label, minutes)}
-                className="rounded-xl bg-amber-100 px-3 py-3.5 text-sm font-medium text-amber-900 ring-1 ring-amber-200/60 transition hover:bg-amber-200 hover:ring-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-400 active:scale-[0.98]"
+                className="rounded-xl bg-amber-100 px-3 py-3.5 text-sm font-medium text-amber-900 ring-1 ring-amber-200/60 transition-all duration-100 ease-out hover:bg-amber-200 hover:ring-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-400 active:scale-[0.95] active:opacity-90"
               >
                 {label}
               </button>
@@ -94,7 +94,7 @@ export default function Home() {
                 key={label}
                 type="button"
                 onClick={() => addEntry(label, minutes)}
-                className="min-w-0 rounded-xl bg-amber-500 px-3 py-3.5 text-sm font-medium text-white shadow-md shadow-amber-500/25 transition hover:bg-amber-600 hover:shadow-amber-500/30 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 active:scale-[0.98]"
+                className="min-w-0 rounded-xl bg-amber-500 px-3 py-3.5 text-sm font-medium text-white shadow-md shadow-amber-500/25 transition-all duration-100 ease-out hover:bg-amber-600 hover:shadow-amber-500/30 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 active:scale-[0.95] active:opacity-90"
               >
                 {label}
               </button>
@@ -102,7 +102,7 @@ export default function Home() {
             <button
               type="button"
               onClick={clearEntries}
-              className="min-w-0 rounded-xl border-2 border-amber-200 bg-amber-50/80 px-3 py-3.5 text-sm font-medium text-amber-900 transition hover:bg-amber-100 hover:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 active:scale-[0.98]"
+              className="min-w-0 rounded-xl border-2 border-amber-200 bg-amber-50/80 px-3 py-3.5 text-sm font-medium text-amber-900 transition-all duration-100 ease-out hover:bg-amber-100 hover:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 active:scale-[0.95] active:opacity-90"
             >
               초기화
             </button>
@@ -111,7 +111,7 @@ export default function Home() {
             <button
               type="button"
               onClick={handleSum}
-              className="w-full rounded-xl bg-rose-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-rose-500/25 transition hover:bg-rose-700 hover:shadow-rose-500/30 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-offset-2 active:scale-[0.99]"
+              className="w-full rounded-xl bg-rose-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-rose-500/25 transition-all duration-100 ease-out hover:bg-rose-700 hover:shadow-rose-500/30 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-offset-2 active:scale-[0.97] active:opacity-90"
             >
               합계 계산
             </button>
@@ -119,9 +119,6 @@ export default function Home() {
         </div>
 
         <section className="min-h-[140px] rounded-xl border border-slate-200/80 bg-slate-50/80 p-5 ring-1 ring-slate-100">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
-            근무시간
-          </p>
           {entries.length === 0 ? (
             <p className="text-slate-400">버튼을 눌러 근무 시간을 추가하세요.</p>
           ) : (
